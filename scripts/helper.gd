@@ -18,7 +18,7 @@ func _process(delta: float) -> void:
 				label.text = "You can now double jump! Hope this helps you defeat Lysanderoth and get out of this nightmare"
 				player_in_area.double_jump_activator()  # Call player's function
 			elif gold < 50 and Input.is_action_just_pressed("interact"):
-				label.text = "Get yo broke ass outta here!"
+				label.text = "Get yo broke ass outta here! You have only " + gold + " coins"
 
 func _on_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Player"):

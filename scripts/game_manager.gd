@@ -1,20 +1,24 @@
 extends Node
 
-var score: int = 0
+var score: int = JumpState.coins
 @onready var score_label: Label = %Score_Label
 
 
 func skibidi() -> void:
-	score += 1
+	JumpState.coins += 1
+	score = JumpState.coins
 
 func hustling() -> int:
+	score = JumpState.coins
 	return score
 
 func sadgers() -> void:
-	score -= 100
+	JumpState.coins -= 50
+	score -= JumpState.coins
 
 func beta_male() -> void:
-	score = 0
+	JumpState.coins = 0
+	score = JumpState.coins
 
 func fanum_tax() -> void:
 	var rng = RandomNumberGenerator.new()
