@@ -1,48 +1,14 @@
-[gd_scene load_steps=6 format=3 uid="uid://bpc422gj7wdbv"]
+[gd_scene load_steps=4 format=3 uid="uid://bpc422gj7wdbv"]
 
+[ext_resource type="Script" path="res://scripts/potion.gd" id="1_fpltp"]
 [ext_resource type="Texture2D" uid="uid://m2xsky4sj1rv" path="res://assets/sprites/world_tileset.png" id="1_s40tv"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cgffj"]
 size = Vector2(8, 14)
 
-[sub_resource type="Animation" id="Animation_pm2vw"]
-resource_name = "oscillate"
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.466667, 1),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Vector2(0, 0), Vector2(0, 3), Vector2(0, 0)]
-}
-
-[sub_resource type="Animation" id="Animation_o68xq"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(0, 0)]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_x5pj1"]
-_data = {
-"RESET": SubResource("Animation_o68xq"),
-"oscillate": SubResource("Animation_pm2vw")
-}
-
 [node name="Potion" type="Area2D"]
+collision_mask = 6
+script = ExtResource("1_fpltp")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_s40tv")
@@ -52,8 +18,4 @@ region_rect = Rect2(20, 130, 8, 14)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_cgffj")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-"": SubResource("AnimationLibrary_x5pj1")
-}
-speed_scale = 1.5
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

@@ -1,14 +1,17 @@
-[gd_scene load_steps=25 format=3 uid="uid://cnn5t7t0ljmqd"]
+[gd_scene load_steps=28 format=3 uid="uid://cnn5t7t0ljmqd"]
 
 [ext_resource type="Texture2D" uid="uid://m2xsky4sj1rv" path="res://assets/sprites/world_tileset.png" id="1_ai32j"]
 [ext_resource type="Script" path="res://scripts/game_manager.gd" id="2_fruwn"]
 [ext_resource type="PackedScene" uid="uid://d2epnqscxtxse" path="res://scenes/player.tscn" id="3_bqu3c"]
+[ext_resource type="PackedScene" uid="uid://cr7o7cxts0lvh" path="res://scenes/portal.tscn" id="4_ts7jm"]
 [ext_resource type="PackedScene" uid="uid://buljr0f2i1x5k" path="res://scenes/killzone.tscn" id="4_vn1lu"]
 [ext_resource type="PackedScene" uid="uid://dbtb5c78hd05q" path="res://scenes/platform_blue_small.tscn" id="6_yr883"]
 [ext_resource type="PackedScene" uid="uid://b3lwe3ohk1yie" path="res://scenes/platform_blue.tscn" id="7_5qcyt"]
 [ext_resource type="PackedScene" uid="uid://du7fw1l2gp12q" path="res://scenes/coin.tscn" id="7_am3ou"]
 [ext_resource type="PackedScene" uid="uid://uagirjddstbh" path="res://scenes/slime_green.tscn" id="8_o8wn5"]
 [ext_resource type="PackedScene" uid="uid://dlrdphjjkbl36" path="res://scenes/helper.tscn" id="9_8cov7"]
+[ext_resource type="PackedScene" uid="uid://vh3e0buvr2ji" path="res://scenes/pause_menu.tscn" id="11_hi888"]
+[ext_resource type="AudioStream" uid="uid://bbigqm23kokon" path="res://assets/music/ChillMenu.wav" id="12_gxlrv"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_6wsh1"]
 texture = ExtResource("1_ai32j")
@@ -353,12 +356,12 @@ offset_bottom = -386.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 
 [node name="Player" parent="." instance=ExtResource("3_bqu3c")]
-position = Vector2(-693, -87)
+position = Vector2(-697, -87)
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 position = Vector2(-3, 2)
-zoom = Vector2(4.275, 4.275)
-limit_bottom = -20
+zoom = Vector2(4, 4)
+limit_bottom = -30
 limit_smoothed = true
 position_smoothing_enabled = true
 
@@ -546,3 +549,15 @@ position = Vector2(1345, -318)
 
 [node name="Coin19" parent="Coins" instance=ExtResource("7_am3ou")]
 position = Vector2(1143, -278)
+
+[node name="Portal" parent="." instance=ExtResource("4_ts7jm")]
+position = Vector2(1258, -276)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Pause Menu" parent="CanvasLayer" instance=ExtResource("11_hi888")]
+
+[node name="Music" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("12_gxlrv")
+autoplay = true
+bus = &"Music"

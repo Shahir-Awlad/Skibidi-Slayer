@@ -1,0 +1,126 @@
+[gd_scene load_steps=8 format=3 uid="uid://dmoqkaadygrl8"]
+
+[ext_resource type="Script" path="res://scripts/how_to_play.gd" id="1_mqv56"]
+[ext_resource type="Texture2D" uid="uid://cec886sige1dx" path="res://assets/wallpaper-hd.png" id="1_ohvnr"]
+[ext_resource type="FontFile" uid="uid://cdf875ita6esm" path="res://assets/fonts/Daily Bubble.ttf" id="2_g8doi"]
+[ext_resource type="AudioStream" uid="uid://cqtpdhpstknx6" path="res://assets/music/time_for_adventure.mp3" id="4_w8h7s"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_hsch3"]
+texture = ExtResource("1_ohvnr")
+modulate_color = Color(0.52549, 0.52549, 0.52549, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ax8b2"]
+bg_color = Color(0.517184, 0.517184, 0.517184, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+shadow_size = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ijxsw"]
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.00184107, 0.00184107, 0.00184107, 1)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+shadow_size = 12
+
+[node name="How To Play" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_mqv56")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_hsch3")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -348.5
+offset_top = 78.0
+offset_right = 348.5
+offset_bottom = 176.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("2_g8doi")
+theme_override_font_sizes/font_size = 70
+text = "Chadicus' Nightmare"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -285.0
+offset_top = -110.5
+offset_right = 285.0
+offset_bottom = 110.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.940185, 0.290948, 0.337407, 1)
+theme_override_fonts/font = ExtResource("2_g8doi")
+theme_override_font_sizes/font_size = 50
+text = "    A           --------      Left"
+
+[node name="Label2" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.940185, 0.290948, 0.337407, 1)
+theme_override_fonts/font = ExtResource("2_g8doi")
+theme_override_font_sizes/font_size = 50
+text = "    D           --------      Right"
+
+[node name="Label3" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.940185, 0.290948, 0.337407, 1)
+theme_override_fonts/font = ExtResource("2_g8doi")
+theme_override_font_sizes/font_size = 50
+text = "Space      --------      Jump"
+
+[node name="Back" type="Button" parent="."]
+layout_mode = 0
+offset_right = 126.0
+offset_bottom = 81.0
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_g8doi")
+theme_override_font_sizes/font_size = 50
+theme_override_styles/hover = SubResource("StyleBoxFlat_ax8b2")
+theme_override_styles/normal = SubResource("StyleBoxFlat_ijxsw")
+text = "   <-   "
+
+[node name="Music" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_w8h7s")
+autoplay = true
+bus = &"Music"
+
+[connection signal="mouse_entered" from="Back" to="Back" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Back" to="Back" method="_on_mouse_exited"]
+[connection signal="pressed" from="Back" to="." method="_on_back_pressed"]

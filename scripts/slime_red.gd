@@ -30,14 +30,8 @@ func _physics_process(delta: float) -> void:
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Player"):
-		print("Death")
-		Engine.time_scale = 0.5
+		#print("Death")
 		body.player_dies()
-		timer.start()
-
-func _on_timer_timeout() -> void:
-	Engine.time_scale = 1.0
-	game_manager.fanum_tax()
 
 func death() -> void:
 	print("Hit!")

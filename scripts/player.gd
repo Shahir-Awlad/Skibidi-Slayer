@@ -12,12 +12,12 @@ const SLIPPERY_DECELERATION = 150.0
 @onready var jump: AudioStreamPlayer2D = $Jump
 @onready var player: CharacterBody2D = $"." 
 @onready var hurt: AudioStreamPlayer2D = $Hurt
-@onready var timer: Timer = $Timer
 @onready var attack_hitbox: Area2D = $Attack_Hitbox
 @onready var attack: AudioStreamPlayer2D = $Attack
 @onready var tile_map: TileMap = %TileMap
 @onready var collision_shape: CollisionShape2D = $Attack_Hitbox/CollisionShape2D
 @onready var game_manager: Node = %GameManager
+@onready var timer: Timer = $Timer
 
 var is_rolling = false
 var roll_timer = 0.0
@@ -27,10 +27,21 @@ var attack_timer = 0.0
 var is_on_slippery_tile = false 
 var speed_factor = 1.0
 var jump_factor = 1.0
+var can_revive = false
+var can_roll = false
+var can_attack = false
+var can_double_jump = JumpState.can_double_jump
+var jump_count = 0
 
 func _physics_process(delta: float) -> void:
 	if is_dead:
 		return
+	
+	if is_on_floor() and can_double_jump:
+		jump_count = 0
+	
+	# Detect level and give abilities accordingly
+	level_detector()
 	
 	# Detect slippery tiles
 	detect_slippery_tile()
@@ -68,17 +79,23 @@ func _physics_process(delta: float) -> void:
 	var direction := Input.get_axis("move_left", "move_right")
 
 	# Rolling input
-	if Input.is_action_just_pressed("roll") and is_on_floor():
+	if Input.is_action_just_pressed("roll") and is_on_floor() and can_roll:
 		start_roll(direction)
 		return
 
 	# Jump input
-	if Input.is_action_just_pressed("jump") and not is_rolling and is_on_floor():
-		velocity.y = JUMP_VELOCITY
-		jump.play()
+	if not can_double_jump:
+		if Input.is_action_just_pressed("jump") and not is_rolling and is_on_floor():
+			velocity.y = JUMP_VELOCITY
+			jump.play()
+	else:
+		if Input.is_action_just_pressed("jump") and not is_rolling and jump_count < 2:
+			velocity.y = JUMP_VELOCITY
+			jump.play()
+			jump_count += 1
 
 	# Attack input
-	if Input.is_action_just_pressed("attack"):
+	if Input.is_action_just_pressed("attack") and can_attack:
 		start_attack()
 		return
 
@@ -125,12 +142,14 @@ func start_roll(direction: float) -> void:
 		animated_sprite_2d.play("roll")
 		print("Rolling!")
 		player.set_collision_layer_value(2, false)
+		player.set_collision_layer_value(3, true)
 
 func stop_roll() -> void:
 	is_rolling = false
 	velocity.x = 0
 	animated_sprite_2d.play("idle")
 	player.set_collision_layer_value(2, true)
+	player.set_collision_layer_value(3, false)
 	print("Roll ended.")
 
 func start_attack() -> void:
@@ -153,6 +172,7 @@ func stop_attack() -> void:
 func player_dies() -> void:
 	if is_dead:
 		return
+
 	is_dead = true
 	print("Death")
 	Input.action_release("move_left")
@@ -161,6 +181,17 @@ func player_dies() -> void:
 	Input.action_release("roll")
 	animated_sprite_2d.play("hurt")
 	hurt.play()
+	await hurt.finished
+	Engine.time_scale = 0.5
+	timer.start()
+
+func _on_timer_timeout() -> void:
+	Engine.time_scale = 1.0
+	if can_revive:
+		get_tree().reload_current_scene()
+	else:
+		game_manager.fanum_tax()
+		game_manager.beta_male()
 
 #Detects if an enemy is in the player's attack hitbox and calls the enemy dying function
 func _on_attack_hitbox_area_entered(area: Area2D) -> void:
@@ -171,6 +202,7 @@ func _on_attack_hitbox_area_entered(area: Area2D) -> void:
 func _on_attack_hitbox_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Boss"):
 		body.boss_hit()
+		#body.boss_dies()
 
 # Detect if the player is on a slippery tile
 func detect_slippery_tile() -> void:
@@ -179,8 +211,8 @@ func detect_slippery_tile() -> void:
 		return
 
 	var player_globalpos = global_position
-	var mouse_pos = get_global_mouse_position()
-	#print(tile_coords)
+	#var mouse_pos = get_global_mouse_position()
+	#print(mouse_pos)
 	var tile_data = get_tile_data(player_globalpos)
 	if tile_data:
 		var custom_data = tile_data.get_custom_data("is_slippery")
@@ -214,3 +246,23 @@ func get_tile_data(player_globalpos: Vector2) -> TileData:
 	#print(tile_coords)
 	var tile_data = tile_map.get_cell_tile_data(1, tile_coords)
 	return tile_data
+
+func revive_activator() -> void:
+	can_revive = true
+
+func level_detector() -> void:
+	var scene_name = get_tree().current_scene.name
+	scene_name = scene_name.substr(0, scene_name.length() - 1)
+	if scene_name == "Level_1" or scene_name == "Level_2" or scene_name == "Level_3":
+		JumpState.can_double_jump = false
+		can_double_jump = JumpState.can_double_jump
+	if scene_name == "Level_2":
+		can_roll = true
+	if scene_name == "Level_3" or scene_name == "Level_4":
+		can_roll = true
+		can_attack = true
+
+func double_jump_activator() -> void:
+	JumpState.can_double_jump = true
+	can_double_jump = JumpState.can_double_jump
+	

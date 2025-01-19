@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://d1hlx6wsolphd"]
+[gd_scene load_steps=28 format=3 uid="uid://d1hlx6wsolphd"]
 
 [ext_resource type="Texture2D" uid="uid://m2xsky4sj1rv" path="res://assets/sprites/world_tileset.png" id="1_ed6cn"]
 [ext_resource type="Script" path="res://scripts/game_manager.gd" id="2_of4no"]
@@ -9,6 +9,9 @@
 [ext_resource type="PackedScene" uid="uid://du7fw1l2gp12q" path="res://scenes/coin.tscn" id="7_1adqs"]
 [ext_resource type="PackedScene" uid="uid://dbtb5c78hd05q" path="res://scenes/platform_blue_small.tscn" id="8_jns71"]
 [ext_resource type="PackedScene" uid="uid://b3lwe3ohk1yie" path="res://scenes/platform_blue.tscn" id="9_kb71i"]
+[ext_resource type="PackedScene" uid="uid://cr7o7cxts0lvh" path="res://scenes/portal.tscn" id="10_jjicr"]
+[ext_resource type="PackedScene" uid="uid://vh3e0buvr2ji" path="res://scenes/pause_menu.tscn" id="11_mqq4t"]
+[ext_resource type="AudioStream" uid="uid://bbigqm23kokon" path="res://assets/music/ChillMenu.wav" id="12_muwn3"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_6wsh1"]
 texture = ExtResource("1_ed6cn")
@@ -637,3 +640,15 @@ position = Vector2(913, -320)
 
 [node name="Slime_Green13" parent="Node" instance=ExtResource("6_u7kig")]
 position = Vector2(1003, -320)
+
+[node name="Portal" parent="." instance=ExtResource("10_jjicr")]
+position = Vector2(1282, -419)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Pause Menu" parent="CanvasLayer" instance=ExtResource("11_mqq4t")]
+
+[node name="Music" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("12_muwn3")
+autoplay = true
+bus = &"Music"

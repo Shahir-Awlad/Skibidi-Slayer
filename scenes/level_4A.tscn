@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://bvq5mq7o2gijt"]
+[gd_scene load_steps=19 format=3 uid="uid://bvq5mq7o2gijt"]
 
 [ext_resource type="Texture2D" uid="uid://m2xsky4sj1rv" path="res://assets/sprites/world_tileset.png" id="1_6uhby"]
 [ext_resource type="Script" path="res://scripts/game_manager.gd" id="2_gh28q"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://mejfpr5cyj8f" path="res://scenes/platform_yellow.tscn" id="7_phg21"]
 [ext_resource type="Script" path="res://scripts/platform_brown(1).gd" id="8_l4lwe"]
 [ext_resource type="PackedScene" uid="uid://cr7o7cxts0lvh" path="res://scenes/portal.tscn" id="9_5pbux"]
+[ext_resource type="PackedScene" uid="uid://vh3e0buvr2ji" path="res://scenes/pause_menu.tscn" id="10_mqwpg"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_6wsh1"]
 texture = ExtResource("1_6uhby")
@@ -242,15 +243,8 @@ layer_1/tile_data = PackedInt32Array(-327804, 262144, 0, -262268, 262144, 1, -19
 unique_name_in_owner = true
 script = ExtResource("2_gh28q")
 
-[node name="Score_Label" type="Label" parent="GameManager"]
-offset_left = 2889.0
-offset_top = -490.0
-offset_right = 3042.0
-offset_bottom = -421.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-
 [node name="Player" parent="." instance=ExtResource("3_udsu0")]
-position = Vector2(-1911, -119)
+position = Vector2(-1920, -119)
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 position = Vector2(-3, 2)
@@ -276,7 +270,7 @@ position = Vector2(-1, 7)
 shape = SubResource("WorldBoundaryShape2D_drox7")
 
 [node name="Helper" parent="." instance=ExtResource("5_v5362")]
-position = Vector2(-434, -112)
+position = Vector2(-519, -112)
 
 [node name="Platform_Yellow_Small" parent="." instance=ExtResource("6_ksnx3")]
 position = Vector2(-1655, -92)
@@ -316,5 +310,9 @@ remote_path = NodePath("../../Platform_Yellow")
 
 [node name="Portal" parent="." instance=ExtResource("9_5pbux")]
 position = Vector2(-407, -115)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Pause Menu" parent="CanvasLayer" instance=ExtResource("10_mqwpg")]
 
 [connection signal="body_entered" from="Path2D/Platform_Yellow/Area2D" to="Path2D/Platform_Yellow" method="_on_area_2d_body_entered"]

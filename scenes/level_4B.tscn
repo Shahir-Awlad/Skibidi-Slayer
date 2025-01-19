@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://beo63nm1yxjoy"]
+[gd_scene load_steps=10 format=3 uid="uid://beo63nm1yxjoy"]
 
 [ext_resource type="Texture2D" uid="uid://m2xsky4sj1rv" path="res://assets/sprites/world_tileset.png" id="1_bhjp3"]
 [ext_resource type="Script" path="res://scripts/game_manager.gd" id="2_ggdui"]
 [ext_resource type="PackedScene" uid="uid://d2epnqscxtxse" path="res://scenes/player.tscn" id="3_7cc1o"]
 [ext_resource type="PackedScene" uid="uid://buljr0f2i1x5k" path="res://scenes/killzone.tscn" id="4_ell3l"]
 [ext_resource type="PackedScene" uid="uid://ccb4m7k171ixw" path="res://scenes/boss.tscn" id="5_q5hmh"]
+[ext_resource type="AudioStream" uid="uid://bs20geu6ygq2p" path="res://assets/music/CriticalTheme.wav" id="6_l666g"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_6wsh1"]
 texture = ExtResource("1_bhjp3")
@@ -227,4 +228,9 @@ position = Vector2(-1, 7)
 shape = SubResource("WorldBoundaryShape2D_drox7")
 
 [node name="Boss" parent="." instance=ExtResource("5_q5hmh")]
-position = Vector2(-1637, -120)
+position = Vector2(-1652, -120)
+
+[node name="Music" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_l666g")
+volume_db = 6.0
+autoplay = true

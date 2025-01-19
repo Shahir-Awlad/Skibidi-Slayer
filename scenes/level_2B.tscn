@@ -1,14 +1,17 @@
-[gd_scene load_steps=40 format=3 uid="uid://c5kelcdhbgk7t"]
+[gd_scene load_steps=43 format=3 uid="uid://c5kelcdhbgk7t"]
 
 [ext_resource type="Texture2D" uid="uid://m2xsky4sj1rv" path="res://assets/sprites/world_tileset.png" id="1_peukg"]
 [ext_resource type="Script" path="res://scripts/game_manager.gd" id="2_m4agj"]
 [ext_resource type="PackedScene" uid="uid://d2epnqscxtxse" path="res://scenes/player.tscn" id="3_ps1sf"]
+[ext_resource type="PackedScene" uid="uid://cr7o7cxts0lvh" path="res://scenes/portal.tscn" id="4_b65gs"]
 [ext_resource type="PackedScene" uid="uid://buljr0f2i1x5k" path="res://scenes/killzone.tscn" id="4_t5cc3"]
 [ext_resource type="PackedScene" uid="uid://dlrdphjjkbl36" path="res://scenes/helper.tscn" id="5_t04h7"]
 [ext_resource type="PackedScene" uid="uid://b3lwe3ohk1yie" path="res://scenes/platform_blue.tscn" id="6_pcqxj"]
 [ext_resource type="PackedScene" uid="uid://dbtb5c78hd05q" path="res://scenes/platform_blue_small.tscn" id="7_477cf"]
 [ext_resource type="PackedScene" uid="uid://uagirjddstbh" path="res://scenes/slime_green.tscn" id="8_wc7w0"]
 [ext_resource type="PackedScene" uid="uid://du7fw1l2gp12q" path="res://scenes/coin.tscn" id="9_vdtpp"]
+[ext_resource type="PackedScene" uid="uid://vh3e0buvr2ji" path="res://scenes/pause_menu.tscn" id="11_aulpt"]
+[ext_resource type="AudioStream" uid="uid://bbigqm23kokon" path="res://assets/music/ChillMenu.wav" id="12_di76v"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_6wsh1"]
 texture = ExtResource("1_peukg")
@@ -549,10 +552,13 @@ position = Vector2(-794, -119)
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 position = Vector2(-3, 2)
-zoom = Vector2(4.275, 4.275)
-limit_bottom = 30
+zoom = Vector2(4, 4)
+limit_bottom = -40
 limit_smoothed = true
 position_smoothing_enabled = true
+
+[node name="Portal" parent="." instance=ExtResource("4_b65gs")]
+position = Vector2(1389, -388)
 
 [node name="Killzone" parent="." instance=ExtResource("4_t5cc3")]
 position = Vector2(2, -32)
@@ -851,7 +857,16 @@ libraries = {
 "": SubResource("AnimationLibrary_wugmw")
 }
 autoplay = "move"
-speed_scale = 0.7
+speed_scale = 0.5
 
 [node name="Helper2" parent="." instance=ExtResource("5_t04h7")]
 position = Vector2(-705, -111)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Pause Menu" parent="CanvasLayer" instance=ExtResource("11_aulpt")]
+
+[node name="Music" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("12_di76v")
+autoplay = true
+bus = &"Music"
